@@ -1,17 +1,17 @@
 import http from 'k6/http'
-import {sleep} from 'k6'
+import {sleep,check} from 'k6'
 
 export const options = {
   // Define the number of iterations for the test
-  iterations: 10,
+  iterations: 2,
 };
 
 export default function () {
     const url = 'http://localhost:3000/users/login';
   const payload = JSON.stringify({
-   //objeto que representa o payload, transformado em json
+   // Object representing the payload, converted to JSON
     username: 'julio',
-    senha: '123456',
+    password: '123456',
   });
 
   const params = {
@@ -21,6 +21,14 @@ export default function () {
   };
 
  const resposta = http.post(url, payload, params);
- console.log(resposta);
+
+ check(resposta, {
+  'Check that status is 200': (r) => r.status === 200,
+  'Check that token is a string': (r) => typeof r.json().token === 'string',
+  'Check that token is not empty': (r) => r.json().token.length > 0,
+    
+
+});
+
   sleep(1);
 }
