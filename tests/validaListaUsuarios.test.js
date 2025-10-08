@@ -2,7 +2,6 @@ import http from 'k6/http';
 import { check } from 'k6';
 
 export const options = {
-  vus: 1,           // número de usuários virtuais
   iterations: 1,    // quantas vezes o teste será executado
 };
 
@@ -18,7 +17,7 @@ export default function () {
   check(res, {
     'status é 200 (OK)': (r) => r.status === 200,
 
-    'resposta é um JSON válido': (r) => {
+    'Resposta é um JSON válido': (r) => {
       try {
         JSON.parse(r.body);
         return true;
@@ -27,7 +26,7 @@ export default function () {
       }
     },
 
-    'retorna uma lista de usuários': (r) => {
+    'Retorna uma lista de usuários': (r) => {
       try {
         const data = JSON.parse(r.body);
         return Array.isArray(data);
@@ -36,7 +35,7 @@ export default function () {
       }
     },
 
-    'lista contém pelo menos 1 usuário': (r) => {
+    'Lista contém pelo menos 1 usuário': (r) => {
       try {
         const data = JSON.parse(r.body);
         return Array.isArray(data) && data.length > 0;
@@ -45,6 +44,6 @@ export default function () {
       }
     },
 
-    'tempo de resposta menor que 500 ms': (r) => r.timings.duration < 500,
+    'Tempo de resposta menor que 500 ms': (r) => r.timings.duration < 500,
   });
 }
