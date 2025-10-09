@@ -3,7 +3,7 @@ import {sleep,check} from 'k6'
 
 export const options = {
   // Define the number of iterations for the test
-  iterations: 1,
+  iterations: 10,
 };
 
 export default function () {
@@ -21,7 +21,7 @@ export default function () {
   };
 
    const resposta = http.post(url, payload, params);
-
+  console.log(resposta);
   
  check(resposta, {
   'Valida que o status é 400': (r) => r.status === 400,
@@ -29,7 +29,8 @@ export default function () {
   'Usuário ou senha inválidos': (r) =>
     r.body.includes('usuário ou senha inválidos') ||
     r.body.includes('usuario ou senha invalidos'),
-  'Tempo de resposta menor que 500 ms': (r) => r.timings.duration < 500,
+  'Tempo de resposta menor que 500 ms': (r) => (r.timings && (r.timings.duration || r.timings['duration'])) < 500,
+
 
 });
 

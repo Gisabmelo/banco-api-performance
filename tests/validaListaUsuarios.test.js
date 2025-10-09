@@ -2,7 +2,7 @@ import http from 'k6/http';
 import { check } from 'k6';
 
 export const options = {
-  iterations: 1,    // quantas vezes o teste será executado
+  iterations: 10,    // quantas vezes o teste será executado
 };
 
 export default function () {
