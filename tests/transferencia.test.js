@@ -4,6 +4,9 @@ import { check } from 'k6'
 
 const errosLogin = new Counter('erros_login')
 const errosTransferencia = new Counter('erros_transferencia')
+const baseUrl = 'http://localhost:3000'
+const endpointTransferencia = '/transfers'
+const endpointLogin = '/users/login'
 const username = 'julio'
 const password = '123456'
 
@@ -18,7 +21,7 @@ export const options = {
 }
 
 export default function(){
-    const loginUrl = 'http://localhost:3000/users/login'
+    const loginUrl = `${baseUrl}${endpointLogin}`
 
     const loginPayload = JSON.stringify({
       username: username,
@@ -39,7 +42,7 @@ export default function(){
         errosLogin.add(1)
     }
 
-    const urlTransferencia = 'http://localhost:3000/transfers'
+    const urlTransferencia = `${baseUrl}${endpointTransferencia}`
     
     const payloadTransferencia = JSON.stringify({
         from: 'julio',
