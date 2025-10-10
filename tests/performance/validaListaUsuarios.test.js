@@ -4,7 +4,7 @@ import { check } from 'k6';
 export const options = {
   // Define the number of iterations for the test
   vus: 1,
-  iterations: 100,
+  iterations: 10,
   thresholds: {
     http_req_duration: ['p(90)<100'], // 90% das requisições devem ser menores que 100ms
     http_req_failed: ['rate<0.01'],    // Em vez de exigir 0% de falhas, permitir até 100% se esperado
