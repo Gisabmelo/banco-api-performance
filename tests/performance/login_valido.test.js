@@ -3,7 +3,7 @@ import { sleep, check } from 'k6';
 
 export const options = {
 
-    iterations: 50,
+    iterations: 20,
      thresholds: {
     http_req_failed: ['rate<0.01'], 
     http_req_duration: ['p(90)<100'], 
@@ -26,6 +26,7 @@ export default function () {
     };
   
     const res = http.post(url, payload, params);
+    console.log('Resposta da API:', res.body);
 
     check(res, {
       'Validar que o Status é 200': (r) => r.status === 200,

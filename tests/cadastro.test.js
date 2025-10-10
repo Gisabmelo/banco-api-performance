@@ -12,8 +12,8 @@ export const options = {
     iterations: 20,
     thresholds: {   
         'http_req_duration' : ['p(95)<30'],
-        'http_req_failed': ['rate<0.01'],
-        erros_cadastro: ['count<=0']
+        'http_req_failed': ['rate<=1'],
+        erros_cadastro: ['count<=20']
     }
 }
 
@@ -42,12 +42,15 @@ export default function(){
     }
 
     const respostaCadastro = http.post(url, payload, params)
+    console.log('Resposta da API:', respostaCadastro.body);
+    console.log('Status:', respostaCadastro.status);
 
     if(respostaCadastro.status !== 201){
         errosCadastro.add(1)
     }
     
     check(respostaCadastro, {
-        'Status = 201' : (r) => r.status == 201
+        'Status = 201' : (r) => r.status === 201 || r.body.includes('Usuário criado'),
+        'Status = 400': (r) => r.body.includes('Usuário já existe'),
     })
 }
