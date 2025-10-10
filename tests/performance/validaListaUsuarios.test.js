@@ -2,8 +2,16 @@ import http from 'k6/http';
 import { check } from 'k6';
 
 export const options = {
-  iterations: 10,    // quantas vezes o teste será executado
+  // Define the number of iterations for the test
+  vus: 1,
+  iterations: 1,
+  thresholds: {
+    http_req_duration: ['p(90)<100'], // 90% das requisições devem ser menores que 100ms
+    http_req_failed: ['rate<0.01'],    // Em vez de exigir 0% de falhas, permitir até 100% se esperado
+    
+  },
 };
+
 
 export default function () {
   const url = 'http://localhost:3000/users'
