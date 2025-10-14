@@ -1,8 +1,9 @@
 import http from 'k6/http';
 import { sleep, check } from 'k6';
+const postLogin = JSON.parse(open('../fixtures/postLogin.json')); //puxa o arquivo json de fixtures, converte em objeto
 
 export const options = {
-vus:10,
+/*vus:10,
 duration: '30s',
 thresholds: {
     http_req_failed: ['rate<0.01'], 
@@ -10,15 +11,15 @@ thresholds: {
   },
 
 };
-
+*/  iterations: 10,    // quantas vezes o teste será executado
+};
 export default function () {
     const url = 'http://localhost:3000/users/login';
-    
-    const payload = JSON.stringify({
-      username: 'julio',
-      password: '123456',
-    });
-  
+    postLogin.username = "priscila" //alterando o username para cada iteração
+    console.log('Payload de login:', postLogin);  
+
+    const payload = JSON.stringify(postLogin);
+      //objeto que representa o payload, transformado em json
     const params = {
       headers: {
         'Content-Type': 'application/json',
