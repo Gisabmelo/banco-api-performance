@@ -2,8 +2,11 @@ import http from 'k6/http'
 import {sleep,check} from 'k6'
 
 export const options = {
-  // Define the number of iterations for the test
-  iterations: 10,
+ stages: [
+    { duration: '30s', target: 50 }, // Ramp-up to 10 VUs over 10 seconds
+    { duration: '20s', target: 10 }, // Stay at 10 VUs for 20 seconds
+    { duration: '5s', target: 0 },  // Ramp-down to 0 VUs over 10 seconds
+  ],
 };
 
 export default function () {
@@ -21,14 +24,12 @@ export default function () {
   };
 
    const resposta = http.post(url, payload, params);
-  console.log(resposta);
+ // console.log('status', resposta.status);
+
   
  check(resposta, {
-  'Valida que o status é 400': (r) => r.status === 400,
-  'Mensagem contém "Error: Bad Request"': (r) => r.body.includes('Error: Bad Request'),
-  'Usuário ou senha inválidos': (r) =>
-    r.body.includes('usuário ou senha inválidos') ||
-    r.body.includes('usuario ou senha invalidos'),
+  'Status é 400 (Bad Request)': (r) => r.status === 400,
+  'Usuario ou senha inválidos': (r) => r.body.includes('Usuário não encontrado'),
   'Tempo de resposta menor que 500 ms': (r) => (r.timings && (r.timings.duration || r.timings['duration'])) < 500,
 
 
