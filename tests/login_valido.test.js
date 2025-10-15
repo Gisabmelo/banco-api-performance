@@ -1,6 +1,7 @@
 import http from 'k6/http';
 import { sleep, check } from 'k6';
 const postLogin = JSON.parse(open('../fixtures/postLogin.json')); //puxa o arquivo json de fixtures, converte em objeto
+import { pegarBaseUrl } from '../utilis/variaveis.js'; // importa a função para pegar a base URL 
 
 export const options = {
 /*vus:10,
@@ -14,7 +15,7 @@ thresholds: {
 */  iterations: 10,    // quantas vezes o teste será executado
 };
 export default function () {
-    const url = 'http://localhost:3000/users/login';
+    const url = `${pegarBaseUrl()}/users/login`;
     postLogin.username = "priscila" //alterando o username para cada iteração
     console.log('Payload de login:', postLogin);  
 

@@ -1,5 +1,6 @@
 import http from 'k6/http'
 import {sleep,check} from 'k6'
+import { pegarBaseUrl } from '../utilis/variaveis.js'; // importa a função para pegar a base URL 
 
 export const options = {
  stages: [
@@ -10,7 +11,7 @@ export const options = {
 };
 
 export default function () {
-    const url = 'http://localhost:3000/users/login';
+    const url = `${pegarBaseUrl()}/users/login`;
   const payload = JSON.stringify({
    //objeto que representa o payload, transformado em json
     username: 'juli',

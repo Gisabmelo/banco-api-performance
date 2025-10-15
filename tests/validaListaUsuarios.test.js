@@ -1,12 +1,13 @@
 import http from 'k6/http';
 import { check } from 'k6';
+import { pegarBaseUrl } from '../utilis/variaveis.js'; // importa a função para pegar a base URL     
 
 export const options = {
   iterations: 10,    // quantas vezes o teste será executado
 };
 
 export default function () {
-  const url = 'http://localhost:3000/users'
+  const url = `${pegarBaseUrl()}/users`;
 
   const params = {
     headers: { 'Content-Type': 'application/json' },
