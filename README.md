@@ -28,7 +28,6 @@ Os testes são escritos em JavaScript e executados via **K6**, ferramenta open s
 ```
 📦 banco-api-performance
  ┣ 📁 tests/              # Scripts de teste organizados por funcionalidade da API
- ┣ 📁 data/                 # Arquivos JSON/CSV usados como massa de dados
  ┣ 📁 reports/              # Saída dos relatórios de execução
  ┣ 📄 .env.example          # Exemplo das variáveis de ambiente necessárias
  ┣ 📄 package.json          # Dependências e scripts NPM (se aplicável)
